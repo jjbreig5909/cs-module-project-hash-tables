@@ -22,6 +22,8 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
+        self.capacity = capacity
+        self.storage = [None] * capacity
 
 
     def get_num_slots(self):
@@ -46,15 +48,14 @@ class HashTable:
         # Your code here
 
 
-    def fnv1(self, key):
-        """
-        FNV-1 Hash, 64-bit
+    # def fnv1(self, key):
+    #     """
+    #     FNV-1 Hash, 64-bit
 
-        Implement this, and/or DJB2.
-        """
+    #     Implement this, and/or DJB2.
+    #     """
 
-        # Your code here
-
+    #     # Your code here
 
     def djb2(self, key):
         """
@@ -63,7 +64,10 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
-
+        hash = 5381
+        for c in key:
+            hash = (hash * 33) + ord(c)
+        return hash
 
     def hash_index(self, key):
         """
@@ -82,7 +86,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        hashed_string = self.djb2(key)
+        idx = hashed_string % len(self.storage)
+        self.storage[idx] = value
 
     def delete(self, key):
         """
@@ -93,7 +99,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        hashed_string = self.djb2(key)
+        idx = hashed_string % len(self.storage)
+        self.storage[idx] = None
 
     def get(self, key):
         """
@@ -104,6 +112,10 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        hashed_string = self.djb2(key)
+        idx = hashed_string % len(self.storage)
+        value = self.storage[idx]
+        return value
 
 
     def resize(self, new_capacity):
