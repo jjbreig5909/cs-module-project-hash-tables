@@ -87,7 +87,7 @@ class HashTable:
         """
         # Your code here
         hashed_string = self.djb2(key)
-        idx = hashed_string % len(self.storage)
+        idx = self.hash_index(key)
         self.storage[idx] = value
 
     def delete(self, key):
@@ -100,7 +100,7 @@ class HashTable:
         """
         # Your code here
         hashed_string = self.djb2(key)
-        idx = hashed_string % len(self.storage)
+        idx = self.hash_index(key)
         self.storage[idx] = None
 
     def get(self, key):
@@ -113,7 +113,7 @@ class HashTable:
         """
         # Your code here
         hashed_string = self.djb2(key)
-        idx = hashed_string % len(self.storage)
+        idx = self.hash_index(key)
         value = self.storage[idx]
         return value
 
