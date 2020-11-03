@@ -24,6 +24,7 @@ class HashTable:
         # Your code here
         self.capacity = capacity
         self.storage = [None] * capacity
+        self.load = 0
 
 
     def get_num_slots(self):
@@ -105,7 +106,6 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-​
         if self.storage[idx] == None:
             print('Warning! No key!!!')
         else:
@@ -121,7 +121,6 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        hashed_string = self.djb2(key)
         idx = self.hash_index(key)
         value = self.storage[idx]
         return value
