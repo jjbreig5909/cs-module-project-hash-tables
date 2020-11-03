@@ -77,16 +77,6 @@ class HashTable:
 
         return self.load / self.capacity
 
-
-    # def fnv1(self, key):
-    #     """
-    #     FNV-1 Hash, 64-bit
-
-    #     Implement this, and/or DJB2.
-    #     """
-
-    #     # Your code here
-
     def djb2(self, key):
         """
         DJB2 hash, 32-bit
@@ -120,7 +110,8 @@ class HashTable:
         idx =self.hash_index(key)
         if self.storage[idx] != None:
             print("Collision")
-        self.storage[idx] = value
+
+        self.storage[idx] = HashTableEntry(idx, value)
         self.load +=1
 
     def delete(self, key):
@@ -149,8 +140,11 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        value = self.storage[idx]
-        return value
+        if self.storage[idx] == None:
+            return None
+        else:
+            target = self.storage[idx]
+            return target.value
 
 
     def resize(self, new_capacity):
