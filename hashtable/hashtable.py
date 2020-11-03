@@ -47,6 +47,9 @@ class HashTable:
         """
         # Your code here
 
+        self.load = 0
+        return self.load
+
 
     # def fnv1(self, key):
     #     """
@@ -86,9 +89,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        hashed_string = self.djb2(key)
-        idx = self.hash_index(key)
+
+        idx =self.hash_index(key)
+        if self.storage[idx] != None:
+            print("Collision")
         self.storage[idx] = value
+        self.load +=1
 
     def delete(self, key):
         """
@@ -99,9 +105,13 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        hashed_string = self.djb2(key)
         idx = self.hash_index(key)
-        self.storage[idx] = None
+​
+        if self.storage[idx] == None:
+            print('Warning! No key!!!')
+        else:
+            self.storage[idx] = None
+            self.load -= 1
 
     def get(self, key):
         """
