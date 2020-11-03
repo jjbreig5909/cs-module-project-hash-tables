@@ -47,8 +47,7 @@ class HashTable:
         """
         # Your code here
 
-        self.load = 0
-        return self.load
+        return self.load / self.capacity
 
 
     # def fnv1(self, key):
