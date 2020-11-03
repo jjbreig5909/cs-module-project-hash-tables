@@ -6,7 +6,34 @@ class HashTableEntry:
         self.key = key
         self.value = value
         self.next = None
+        self.head = None
 
+    def get(self,target_value):
+        node = self.head
+        while node is not None: 
+            if node.value == target_value:
+                return node
+            else:
+                node = node.next
+    
+    def delete(self, target_value):
+
+        if not self.head:
+            return False
+
+        if self.head.value == target_value:
+            self.head = self.head.next
+        
+        prev_node = self.head
+        cur_node = self.head.next
+
+        while cur_node is not None: 
+            if cur_node.value == target_value:
+                prev_node.next = cur_node.next
+            
+            else:
+                prev_node = cur_node
+                cur_node = cur_node.next
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -38,7 +65,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        return self.capacity
 
     def get_load_factor(self):
         """
@@ -134,6 +161,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        
 
 
 
