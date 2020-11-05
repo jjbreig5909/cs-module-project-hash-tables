@@ -3,26 +3,30 @@ def word_count(s):
     # Your code here
     word_cache = {}
     s = s.lower()
-    exclude = set(string.punctuation)
-    exclude.remove("'")
-    print(exclude)
+    exclude = set('":;,.-+=/\|[]{}()*^&')
     s = ''.join(ch for ch in s if ch not in exclude)
-    string_array = s.split(' ')
-    unique_words = []
+    new_string = ''
+    
 
     if s == '':
         return {}
 
-    for word in string_array:
-        if word not in unique_words and word != "": 
-            unique_words.append(word)
+    for letter in s:
+        if letter in exclude:
+            pass
+        else:
+            new_string = new_string + letter
     
-    for word in unique_words:
-        word_cache[word] = 0
+    if new_string == '':
+        return {}
+
+    string_array = new_string.split()
 
     for word in string_array:
-        if word is not '':
-            word_cache[word] +=1
+        if word in word_cache:
+            word_cache[word] += 1
+        else:
+            word_cache[word] = 1
 
     print(word_cache)
     return word_cache
