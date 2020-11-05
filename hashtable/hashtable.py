@@ -49,7 +49,7 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-        self.capacity = capacity
+        self.capacity = max(capacity, MIN_CAPACITY)
         self.storage = [None] * capacity
         self.load = 0
 
@@ -65,7 +65,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return self.capacity
+        return len(self.storage)
 
     def get_load_factor(self):
         """
@@ -75,7 +75,7 @@ class HashTable:
         """
         # Your code here
 
-        return self.load / self.capacity
+        return self.load / self.get_num_slots()
 
     def djb2(self, key):
         """
@@ -107,12 +107,24 @@ class HashTable:
         """
         # Your code here
 
-        idx =self.hash_index(key)
+        idx = self.hash_index(key)
+
         if self.storage[idx] != None:
             print("Collision")
+            current_node = self.storage[idx]
 
-        self.storage[idx] = HashTableEntry(idx, value)
-        self.load +=1
+            while current_node != None:
+                if current_node.key == key:
+                    current_node.value = value
+                    return
+                elif current_node.next == None:
+                    current_node.next = HashTableEntry(key, value)
+                    self.load += 1
+                current_node = current_node.next
+
+        else:
+            self.storage[idx] = HashTableEntry(idx, value)
+            self.load +=1
 
     def delete(self, key):
         """
@@ -124,11 +136,27 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        if self.storage[idx] == None:
-            print('Warning! No key!!!')
+
+        if self.storage[idx] != None:
+            if self.storage[idx].key == key:
+                self.storage[idx] = self.storage[idx].next
+                return
+            
+            prev_node = self.storage[idx]
+            current_node = self.storage[idx].next
+
+            while current_node != None:
+                if current_node.key == key:
+                    prev_node.next = current_node.next
+                    return
+                else:
+                    prev_node = current_node
+                    current_node = current_node.next
+            
+
         else:
-            self.storage[idx] = None
-            self.load -= 1
+            print('no such key')
+            
 
     def get(self, key):
         """
@@ -140,11 +168,20 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        if self.storage[idx] == None:
-            return None
+
+        if self.storage[idx] != None:
+            print('Warning! No key!!!')
+            current_node = self.storage[idx]
+
+            while current_node != None:
+                if current_node.key == key:
+                    return current_node.value
+                elif current_node.next == None:
+                    return None
+                current_node = current_node.next
+
         else:
-            target = self.storage[idx]
-            return target.value
+            return None
 
 
     def resize(self, new_capacity):
