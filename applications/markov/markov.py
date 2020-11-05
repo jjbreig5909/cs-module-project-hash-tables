@@ -23,17 +23,28 @@ for i in range(len(words)-1):
         word_storage[words[i]].append(words[i+1])
     if words[i] not in word_storage:
         word_storage[words[i]] = [words[i+1]]
+
+def findNextWord(sentence, word):
+    if word in stop_words:
+        return sentence
+    next_word = random.choice(word_storage[word])
+    sentence += " " + next_word
+    return findNextWord(sentence, next_word)
+
+def newSentence():
+    new_sentence = ''
+    new_sentence += random.choice(start_words)
+    result = findNextWord(new_sentence, new_sentence)
+    print(result)
     
-
-
-print(len(words))
-print(words[0])
-print(words[len(words)-1])
-print(word_storage)
 
 
 
 
 # TODO: construct 5 random sentences
 # Your code here
-
+newSentence()
+newSentence()
+newSentence()
+newSentence()
+newSentence()
