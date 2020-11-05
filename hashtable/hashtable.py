@@ -6,34 +6,6 @@ class HashTableEntry:
         self.key = key
         self.value = value
         self.next = None
-        self.head = None
-
-    def get(self,target_value):
-        node = self.head
-        while node is not None: 
-            if node.value == target_value:
-                return node
-            else:
-                node = node.next
-    
-    def delete(self, target_value):
-
-        if not self.head:
-            return False
-
-        if self.head.value == target_value:
-            self.head = self.head.next
-        
-        prev_node = self.head
-        cur_node = self.head.next
-
-        while cur_node is not None: 
-            if cur_node.value == target_value:
-                prev_node.next = cur_node.next
-            
-            else:
-                prev_node = cur_node
-                cur_node = cur_node.next
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -85,8 +57,9 @@ class HashTable:
         """
         # Your code here
         hash = 5381
-        for c in key:
-            hash = (hash * 33) + ord(c)
+        byte_array = str(key).encode('utf-8')
+        for byte in byte_array:
+            hash = ((hash * 33) ^ byte) % 0x100000000
         return hash
 
     def hash_index(self, key):
@@ -123,7 +96,7 @@ class HashTable:
                 current_node = current_node.next
 
         else:
-            self.storage[idx] = HashTableEntry(idx, value)
+            self.storage[idx] = HashTableEntry(key, value)
             self.load +=1
 
     def delete(self, key):
@@ -192,7 +165,21 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        
+        old_table = list(set(self.storage))
+
+        self.capacity = max(new_capacity, MIN_CAPACITY)
+        #create new array
+        self.storage = [None] * self.capacity
+        self.load = 0
+
+        #loop over and put the old data into new array
+        for item in old_table:
+            self.put(item.key, item.value)
+            if item.next != None:
+                current_node = item.next
+                while current_node != None:
+                    self.put(current_node.key, current_node.value)
+                    current_node = current_node.next
 
 
 
