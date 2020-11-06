@@ -26,9 +26,11 @@ potential_combinations = itertools.product(q, repeat=4)
 
 def find_combos(combos):
     for item in combos:
-       if item[0]+item[1] == item[2]-item[3]:
+       if f(item[0])+f(item[1]) == f(item[2])-f(item[3]):
            results.append([item[0], item[1], item[2],item[3]])
 
 find_combos(potential_combinations)
 print(results)
+for result in results:
+    print(f"f({result[0]}) + f({result[1]}) = f({result[2]}) - f({result[3]})   =>   {f(result[0])} + {f(result[1])} = {f(result[2])} - {f(result[3])}")
 
